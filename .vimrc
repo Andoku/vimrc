@@ -26,7 +26,8 @@ filetype plugin indent on    " required
 " Put your non-Plugin stuff after this line
 
 colorscheme desert
-set guifont=Menlo\ Regular:h14
+set guifont=Menlo\ 12
+"set guifont=Monaco\ 12
 
 set number	
 set linebreak
@@ -45,7 +46,13 @@ set shiftwidth=4
 set smartindent
 set smarttab
 set softtabstop=4
- 
+
+"for kernel developement
+set tabstop=8
+set softtabstop=8
+set shiftwidth=8
+set noexpandtab
+
 set ruler	
 set undolevels=1000
 set backspace=indent,eol,start
