@@ -1,58 +1,60 @@
-set nocompatible              " be iMproved, required
-filetype off                  " required
+" Maximize window
+set lines=999 columns=999
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+" Open NERDtree on startup
+" autocmd StdinReadPre * let s:std_in=1
+" autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+" autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
-" let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
-Plugin 'SingleCompile'
-Plugin 'msanders/snipmate.vim'
-Plugin 'a.vim'
-"Plugin 'Valloric/YouCompleteMe'
+" NERDtree auto change working dir
+let NERDTreeChDirMode=2
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
+" ALE settings
+let g:ale_enabled = 1
+let g:ale_linters = {'cpp': ['clangd'], 'c': ['clangd']}
+let g:ale_cpp_clangd_executable = '/home/anton/clangd_10.0.0/bin/clangd'
+let g:ale_c_clangd_executable = '/home/anton/clangd_10.0.0/bin/clangd'
+let g:ale_cpp_gcc_options = '-std=c++11 -Wall'
+let g:ale_c_parse_compile_commands = 1
+let g:ale_lint_on_enter = 1
+let g:ale_lint_on_filetype_changed = 1
+let g:ale_lint_on_insert_leave = 1
+let g:ale_lint_on_save = 1
+let g:ale_lint_on_text_changed = 'normal'
+let g:ale_lint_delay = 0
+" let g:ale_completion_enabled = 0
+nmap <silent> <leader>] <Plug>(ale_go_to_definition)
+nnoremap <silent> <Plug>(ale_find_references_relative) :ALEFindReferences -relative<Return>
+nmap <silent> <leader>u <Plug>(ale_find_references_relative)
+nmap <silent> <leader>r <Plug>(ale_repeat_selection)
 
-" Brief help
-" :PluginList          - list configured plugins
-" :PluginInstall(!)    - install (update) plugins
-" :PluginSearch(!) foo - search (or refresh cache first) for foo
-" :PluginClean(!)      - confirm (or auto-approve) removal of unused plugins
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
+" CtrlP and NERDTree ignore
+let NERDTreeIgnore = ['^build$[[dir]]', '^nbproject$[[dir]]', '^bin$[[dir]]', '^dist$[[dir]]']
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/](\.(git|hg|svn))|(build|nbproject|bin|dist)$',
+  \ 'file': '\v\.(exe|o|so|d|dll)$',
+  \ 'link': 'some_bad_symbolic_links',
+  \ }
 
-colorscheme desert
-set guifont=Menlo\ 12
-"set guifont=Monaco\ 12
+" Switch between .cpp and .h files
+nnoremap <Leader>oc :e %<.cpp<CR>
+nnoremap <Leader>oC :e %<.c<CR>
+nnoremap <Leader>oh :e %<.h<CR>
+map <F4> :e %:p:s,.h$,.X123X,:s,.cpp$,.h,:s,.X123X$,.cpp,<CR>
 
-set number	
-set linebreak
-set showbreak=+++
-set textwidth=100	
-set showmatch	
-set visualbell
- 
-set hlsearch
-set smartcase
-set ignorecase
-set incsearch
- 
-set autoindent
-set shiftwidth=4
-set smartindent
-set smarttab
-set softtabstop=4
+" Left columns settings
+set number
+set numberwidth=2
+set signcolumn=yes
+set foldcolumn=0
 
-"for kernel developement
-set tabstop=8
-set softtabstop=8
-set shiftwidth=8
-set noexpandtab
+" Doxygen highlighting
+let g:load_doxygen_syntax = 1
 
-set ruler	
-set undolevels=1000
-set backspace=indent,eol,start
+" Open hsplit below
+set splitbelow
+
+" Turn off smart braces
+let b:autopairs_enabled = 0
+
+call ch_logfile(expand('~/channel.log'), 'w')
