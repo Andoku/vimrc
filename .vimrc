@@ -2,9 +2,9 @@
 set lines=999 columns=999
 
 " Open NERDtree on startup
-" autocmd StdinReadPre * let s:std_in=1
-" autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-" autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif" autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " NERDtree auto change working dir
 let NERDTreeChDirMode=2
@@ -27,6 +27,7 @@ nmap <silent> <leader>] <Plug>(ale_go_to_definition)
 nnoremap <silent> <Plug>(ale_find_references_relative) :ALEFindReferences -relative<Return>
 nmap <silent> <leader>u <Plug>(ale_find_references_relative)
 nmap <silent> <leader>r <Plug>(ale_repeat_selection)
+" call ch_logfile(expand('~/channel.log'), 'w')
 
 " CtrlP and NERDTree ignore
 let NERDTreeIgnore = ['^build$[[dir]]', '^nbproject$[[dir]]', '^bin$[[dir]]', '^dist$[[dir]]']
@@ -37,9 +38,6 @@ let g:ctrlp_custom_ignore = {
   \ }
 
 " Switch between .cpp and .h files
-nnoremap <Leader>oc :e %<.cpp<CR>
-nnoremap <Leader>oC :e %<.c<CR>
-nnoremap <Leader>oh :e %<.h<CR>
 map <F4> :e %:p:s,.h$,.X123X,:s,.cpp$,.h,:s,.X123X$,.cpp,<CR>
 
 " Left columns settings
@@ -54,7 +52,4 @@ let g:load_doxygen_syntax = 1
 " Open hsplit below
 set splitbelow
 
-" Turn off smart braces
-let b:autopairs_enabled = 0
-
-call ch_logfile(expand('~/channel.log'), 'w')
+let g:AutoPairsMultilineClose = 0
