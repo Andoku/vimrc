@@ -1,6 +1,5 @@
 if has("gui_running")
-     " GUI is running or is about to start. Maximize gvim window.
-     set lines=999 columns=999
+    set lines=999 columns=999
 endif
 
 " Open NERDtree on startup
@@ -23,8 +22,15 @@ let g:ale_lint_on_filetype_changed = 1
 let g:ale_lint_on_insert_leave = 1
 let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 'normal'
+let g:ale_set_quickfix = 1
 let g:ale_lint_delay = 0
-" let g:ale_completion_enabled = 0
+let g:ale_completion_enabled = 0
+let g:ale_sign_column_always = 1
+let g:ale_hover_cursor = 0
+let g:ale_set_balloons = 0
+autocmd FileType cpp set omnifunc=ale#completion#OmniFunc
+set completeopt-=preview
+
 nmap <silent> <leader>] <Plug>(ale_go_to_definition)
 nnoremap <silent> <Plug>(ale_find_references_relative) :ALEFindReferences -relative<Return>
 nmap <silent> <leader>u <Plug>(ale_find_references_relative)
@@ -55,3 +61,4 @@ let g:load_doxygen_syntax = 1
 set splitbelow
 
 let g:AutoPairsMultilineClose = 0
+
