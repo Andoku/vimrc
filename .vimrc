@@ -1,5 +1,5 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Pliugins
+" => Plugins
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Autoinstall vimplug if not installed
 let vimplug_exists = expand('~/.vim/autoload/plug.vim')
