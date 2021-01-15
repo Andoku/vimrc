@@ -22,6 +22,7 @@ Plug 'itchyny/lightline.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'preservim/nerdtree'
+Plug 'bfrg/vim-cpp-modern'
 call plug#end()
 
 
@@ -63,7 +64,7 @@ set wildmenu
 " Ignore compiled files
 set wildignore=*.o,*~,*.pyc
 set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
-set wildignore+=*/build/*,*/__pycache__/*
+set wildignore+=*/build,*/__pycache__/*
 
 "Always show current position
 set ruler
