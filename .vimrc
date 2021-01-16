@@ -23,6 +23,8 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'preservim/nerdtree'
 Plug 'bfrg/vim-cpp-modern'
+Plug 'mileszs/ack.vim'
+Plug 'ctrlpvim/ctrlp.vim'
 call plug#end()
 
 
@@ -35,7 +37,6 @@ filetype indent on
 
 " Set to auto read when a file is changed from the outside
 set autoread
-au FocusGained,BufEnter * checktime
 
 " With a map leader it's possible to do extra key combinations
 " like <leader>w saves the current file
@@ -73,7 +74,7 @@ set ruler
 set cmdheight=1
 
 " A buffer becomes hidden when it is abandoned
-set hid
+set hidden
 
 " Configure backspace so it acts as it should act
 set backspace=eol,start,indent
@@ -219,6 +220,9 @@ map <leader>te :tabedit <C-r>=expand("%:p:h")<cr>/
 " Return to last edit position when opening files (You want this!)
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
+" Specify the behavior when switching between buffers 
+set switchbuf=useopen,usetab
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Editing mappings
@@ -287,3 +291,38 @@ map <leader>nf :NERDTreeFind<cr>
 " Exit Vim if NERDTree is the only window left.
 autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && 
     \ exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+
+" Open quickfix downside
+augroup DragQuickfixWindowDown
+    autocmd!
+    autocmd FileType qf wincmd J
+augroup end
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Git fugitive
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set diffopt+=vertical
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Helper functions
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! VisualSelection(direction, extra_filter) range
+    let l:saved_reg = @"
+    execute "normal! vgvy"
+
+    let l:pattern = escape(@", "\\/.*'$^~[]")
+    let l:pattern = substitute(l:pattern, "\n$", "", "")
+
+    if a:direction == 'gv'
+        call CmdLine("Ack '" . l:pattern . "' " )
+    elseif a:direction == 'replace'
+        call CmdLine("%s" . '/'. l:pattern . '/')
+    endif
+
+    let @/ = l:pattern
+    let @" = l:saved_reg
+endfunction
+
+
