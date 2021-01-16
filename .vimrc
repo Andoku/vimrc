@@ -25,8 +25,10 @@ Plug 'preservim/nerdtree'
 Plug 'bfrg/vim-cpp-modern'
 Plug 'mileszs/ack.vim'
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'cdelledonne/vim-cmake'
 call plug#end()
 
+let g:plug_window = 'tabnew'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
@@ -324,5 +326,3 @@ function! VisualSelection(direction, extra_filter) range
     let @/ = l:pattern
     let @" = l:saved_reg
 endfunction
-
-
