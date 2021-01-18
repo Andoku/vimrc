@@ -18,14 +18,14 @@ endif
 call plug#begin('~/.vim/plugged')
 Plug 'vim-scripts/peaksea'
 Plug 'tpope/vim-commentary'
-Plug 'itchyny/lightline.vim'
 Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-surround'
+Plug 'itchyny/lightline.vim'
 Plug 'preservim/nerdtree'
 Plug 'bfrg/vim-cpp-modern'
 Plug 'mileszs/ack.vim'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'cdelledonne/vim-cmake'
+Plug 'jiangmiao/auto-pairs'
 call plug#end()
 
 let g:plug_window = 'tabnew'
@@ -100,11 +100,6 @@ set lazyredraw
 " For regular expressions turn magic on
 set magic
 
-" Show matching brackets when text indicator is over them
-set showmatch 
-" How many tenths of a second to blink when matching brackets
-set mat=2
-
 " No annoying sound on errors
 set noerrorbells
 set novisualbell
@@ -120,6 +115,11 @@ endif
 set number
 set signcolumn=number
 
+" Open help in tab
+augroup filetype_help
+    autocmd!
+    autocmd BufWinEnter * if &l:buftype ==# 'help' | execute "normal \<C-W>T" | endif
+augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors, Fonts and GUI
@@ -194,6 +194,16 @@ set si "Smart indent
 set wrap "Wrap lines
 
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Parenthesis/bracket
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+vnoremap $( <esc>`>a)<esc>`<i(<esc>
+vnoremap $[ <esc>`>a]<esc>`<i[<esc>
+vnoremap ${ <esc>`>a}<esc>`<i{<esc>
+vnoremap $" <esc>`>a"<esc>`<i"<esc>
+vnoremap $' <esc>`>a'<esc>`<i'<esc>
+
+
 """"""""""""""""""""""""""""""
 " => Visual mode related
 """"""""""""""""""""""""""""""
@@ -220,7 +230,7 @@ map <C-l> <C-W>l
 map <leader>te :tabedit <C-r>=expand("%:p:h")<cr>/
 
 " Return to last edit position when opening files (You want this!)
-au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+" au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
 " Specify the behavior when switching between buffers 
 set switchbuf=useopen,usetab
