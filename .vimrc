@@ -26,6 +26,7 @@ Plug 'mileszs/ack.vim'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'cdelledonne/vim-cmake'
 Plug 'jiangmiao/auto-pairs'
+Plug 'airblade/vim-gitgutter'
 call plug#end()
 
 let g:plug_window = 'tabnew'
@@ -111,10 +112,6 @@ if has("gui_macvim")
     autocmd GUIEnter * set vb t_vb=
 endif
 
-" Left columns settings
-set number
-set signcolumn=number
-
 " Open help in tab
 augroup filetype_help
     autocmd!
@@ -161,6 +158,12 @@ set encoding=utf8
 
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
+
+" Left columns settings
+set number
+set signcolumn=yes
+" set signcolumn=number
+highlight! link SignColumn LineNr
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -315,6 +318,12 @@ augroup end
 " => Git fugitive
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set diffopt+=vertical
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Git-gutter
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set updatetime=100
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
