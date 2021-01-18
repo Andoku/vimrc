@@ -337,6 +337,7 @@ command! Gqf GitGutterQuickFix | copen
 " let g:bufExplorerShowRelativePath=1
 " let g:bufExplorerSortBy='name'
 map <leader>o :BufExplorer<cr>
+nnoremap <leader>b :ls<CR>:b
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
