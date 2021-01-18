@@ -324,6 +324,9 @@ set diffopt+=vertical
 " => Git-gutter
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set updatetime=100
+nmap ]h <Plug>(GitGutterNextHunk)
+nmap [h <Plug>(GitGutterPrevHunk)
+command! Gqf GitGutterQuickFix | copen
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
