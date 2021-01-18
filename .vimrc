@@ -27,6 +27,7 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'cdelledonne/vim-cmake'
 Plug 'jiangmiao/auto-pairs'
 Plug 'airblade/vim-gitgutter'
+Plug 'jlanzarotta/bufexplorer'
 call plug#end()
 
 let g:plug_window = 'tabnew'
@@ -321,12 +322,21 @@ set diffopt+=vertical
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Git-gutter
+" => Git gutter
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set updatetime=100
 nmap ]h <Plug>(GitGutterNextHunk)
 nmap [h <Plug>(GitGutterPrevHunk)
 command! Gqf GitGutterQuickFix | copen
+
+
+""""""""""""""""""""""""""""""
+" => bufexplorer plugin
+""""""""""""""""""""""""""""""
+" let g:bufExplorerDefaultHelp=0
+" let g:bufExplorerShowRelativePath=1
+" let g:bufExplorerSortBy='name'
+map <leader>o :BufExplorer<cr>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
