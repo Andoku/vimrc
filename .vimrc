@@ -53,6 +53,9 @@ nmap <leader>w :w!<cr>
 " (useful for handling the permission-denied error)
 command! W execute 'w !sudo tee % > /dev/null' <bar> edit!
 
+" fast edit .vimrc
+map <leader>e :e! ~/.vimrc<cr>
+
 " Open splits below
 set splitbelow
 
@@ -153,6 +156,9 @@ colorscheme peaksea
 
 " Enable syntax highlighting
 syntax enable 
+
+" Doxygen highlighting
+let g:load_doxygen_syntax = 1
 
 " Set utf8 as standard encoding
 set encoding=utf8
@@ -339,12 +345,37 @@ command! Gqf GitGutterQuickFix | copen
 " let g:bufExplorerShowRelativePath=1
 " let g:bufExplorerSortBy='name'
 map <leader>o :BufExplorer<cr>
-nnoremap <leader>b :ls<CR>:b
+
+
+""""""""""""""""""""""""""""""
+" => CTRL-P
+""""""""""""""""""""""""""""""
+let g:ctrlp_working_path_mode = 0
+
+" Quickly find and open a buffer
+map <leader>b :CtrlPBuffer<cr>
+
+" Quickly find and open a recently opened file
+map <leader>f :CtrlPMRU<CR>
+
+" Quickly find and open a file in the current working directory
+map <leader>j :CtrlP<cr>
+
+let g:ctrlp_max_height = 15
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/](\.(git|hg|svn))|(build|nbproject|bin|dist)$',
+  \ 'file': '\v\.(exe|o|so|d|dll)$',
+  \ 'link': 'some_bad_symbolic_links',
+  \ }
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Helper functions
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! CmdLine(str)
+    call feedkeys(":" . a:str)
+endfunction 
+
 function! VisualSelection(direction, extra_filter) range
     let l:saved_reg = @"
     execute "normal! vgvy"
