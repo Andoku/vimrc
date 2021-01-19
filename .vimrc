@@ -56,6 +56,9 @@ command! W execute 'w !sudo tee % > /dev/null' <bar> edit!
 " fast edit .vimrc
 map <leader>e :e! ~/.vimrc<cr>
 
+" fast close terminal
+tnoremap <Esc> <C-\><C-n>:bd!<CR>
+
 " Open splits below
 set splitbelow
 
@@ -287,7 +290,7 @@ let g:lightline = {
       \ },
       \ 'component': {
       \   'readonly': '%{&filetype=="help"?"":&readonly?"🔒":""}',
-      \   'modified': '%{&filetype=="help"?"":&modified?"+":""}',
+      \   'modified': '%{&filetype=="help"?"":&modifiable?&modified?"+":"":"-"}',
       \   'fugitive': '%{exists("*FugitiveHead")?FugitiveHead():""}'
       \ },
       \ 'component_visible_condition': {
