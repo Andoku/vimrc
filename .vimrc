@@ -172,8 +172,8 @@ set ffs=unix,dos,mac
 " Left columns settings
 set number
 set signcolumn=yes
-" set signcolumn=number
 highlight! link SignColumn LineNr
+highlight! link FoldColumn LineNr
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -329,7 +329,7 @@ augroup end
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Git fugitive
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set diffopt+=vertical
+set diffopt+=vertical,foldcolumn:0
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
