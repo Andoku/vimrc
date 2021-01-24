@@ -329,7 +329,10 @@ augroup end
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Git fugitive
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set diffopt+=vertical,foldcolumn:0
+if &diff
+    set diffopt-=internal
+    set diffopt+=vertical,foldcolumn:0
+endif
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
