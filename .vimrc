@@ -62,6 +62,9 @@ tnoremap <Esc> <C-\><C-n>:bd!<CR>
 " Open splits below
 set splitbelow
 
+" Switch between .cpp and .h files
+nnoremap <F4> :e %:p:s,.h$,.X123X,:s,.cpp$,.h,:s,.X123X$,.cpp,<CR>
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
@@ -124,6 +127,13 @@ augroup filetype_help
     autocmd!
     autocmd BufWinEnter * if &l:buftype ==# 'help' | execute "normal \<C-W>T" | endif
 augroup END
+
+" Open quickfix downside
+augroup DragQuickfixWindowDown
+    autocmd!
+    autocmd FileType qf wincmd J
+augroup end
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors, Fonts and GUI
@@ -311,6 +321,7 @@ let g:NERDTreeWinPos = "right"
 let g:NERDTreeRespectWildIgnore=1
 let g:NERDTreeWinSize=35
 let g:NERDTreeChDirMode=3
+let g:NERDTreeHijackNetrw=1
 
 map <leader>nn :NERDTreeToggle<cr>
 map <leader>nb :NERDTreeFromBookmark<Space>
@@ -319,12 +330,6 @@ map <leader>nf :NERDTreeFind<cr>
 " Exit Vim if NERDTree is the only window left.
 autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && 
     \ exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
-
-" Open quickfix downside
-augroup DragQuickfixWindowDown
-    autocmd!
-    autocmd FileType qf wincmd J
-augroup end
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -360,7 +365,7 @@ map <leader>o :BufExplorer<cr>
 let g:ctrlp_working_path_mode = 0
 
 " Quickly find and open a buffer
-map <leader>b :CtrlPBuffer<cr>
+map <C-b> :CtrlPBuffer<cr>
 
 " Quickly find and open a recently opened file
 map <leader>f :CtrlPMRU<CR>
