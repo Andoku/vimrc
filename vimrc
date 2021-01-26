@@ -151,7 +151,6 @@ set t_Co=256
 set guitablabel=%M\ %t
 
 " Colorscheme
-set background=dark
 colorscheme peaksea
 
 " Enable syntax highlighting
