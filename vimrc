@@ -1,22 +1,9 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Plugins
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Autoinstall vimplug if not installed
-let vimplug_exists = expand('~/.vim/autoload/plug.vim')
-if !filereadable(vimplug_exists)
-  if !executable("curl")
-    echoerr "You have to install curl or first install vim-plug yourself!"
-    execute "q!"
-  endif
-  echo "Installing Vim-Plug..."
-  echo ""
-  silent !\curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall
-endif
 
 " Plugins
 call plug#begin('~/.vim/plugged')
-Plug 'vim-scripts/peaksea'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'itchyny/lightline.vim'
@@ -54,7 +41,7 @@ nmap <leader>w :w!<cr>
 command! W execute 'w !sudo tee % > /dev/null' <bar> edit!
 
 " fast edit .vimrc
-map <leader>e :e! ~/.vimrc<cr>
+map <leader>e :e! ~/.vim/vimrc<cr>
 
 " fast close terminal
 tnoremap <Esc> <C-\><C-n>:bd!<CR>
@@ -182,8 +169,6 @@ set ffs=unix,dos,mac
 " Left columns settings
 set number
 set signcolumn=yes
-highlight! link SignColumn LineNr
-highlight! link FoldColumn LineNr
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -403,3 +388,21 @@ function! VisualSelection(direction, extra_filter) range
     let @/ = l:pattern
     let @" = l:saved_reg
 endfunction
+
+" Autoinstall vimplug if not installed
+function! InstallVimPlug()
+    let vimplug_exists = expand('~/.vim/autoload/plug.vim')
+    if !filereadable(vimplug_exists)
+        if !executable("curl")
+            echoerr "You have to install curl or first install vim-plug yourself!"
+            execute "q!"
+        endif
+        echo "Installing Vim-Plug..."
+        echo ""
+        silent !\curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+        autocmd VimEnter * PlugInstall
+    endif
+endfunction
+
+
+call InstallVimPlug()
