@@ -321,7 +321,6 @@ let g:NERDTreeWinPos = "right"
 let g:NERDTreeRespectWildIgnore=1
 let g:NERDTreeWinSize=35
 let g:NERDTreeChDirMode=3
-let g:NERDTreeHijackNetrw=1
 
 map <leader>nn :NERDTreeToggle<cr>
 map <leader>nb :NERDTreeFromBookmark<Space>
@@ -365,7 +364,7 @@ map <leader>o :BufExplorer<cr>
 let g:ctrlp_working_path_mode = 0
 
 " Quickly find and open a buffer
-map <C-b> :CtrlPBuffer<cr>
+map <leader>b :CtrlPBuffer<cr>
 
 " Quickly find and open a recently opened file
 map <leader>f :CtrlPMRU<CR>
