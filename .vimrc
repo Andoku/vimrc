@@ -306,6 +306,7 @@ let g:lightline = {
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Nerd Tree
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let NERDTreeHijackNetrw=1
 let g:NERDTreeWinPos = "right"
 let g:NERDTreeRespectWildIgnore=1
 let g:NERDTreeWinSize=35
