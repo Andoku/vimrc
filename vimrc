@@ -6,6 +6,7 @@
 call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
 Plug 'itchyny/lightline.vim'
 Plug 'preservim/nerdtree'
 Plug 'bfrg/vim-cpp-modern'
@@ -200,16 +201,6 @@ set tw=500
 set ai "Auto indent
 set si "Smart indent
 set wrap "Wrap lines
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Parenthesis/bracket
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-vnoremap $( <esc>`>a)<esc>`<i(<esc>
-vnoremap $[ <esc>`>a]<esc>`<i[<esc>
-vnoremap ${ <esc>`>a}<esc>`<i{<esc>
-vnoremap $" <esc>`>a"<esc>`<i"<esc>
-vnoremap $' <esc>`>a'<esc>`<i'<esc>
 
 
 """"""""""""""""""""""""""""""
