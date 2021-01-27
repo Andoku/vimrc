@@ -52,6 +52,8 @@ set splitbelow
 " Switch between .cpp and .h files
 nnoremap <F4> :e %:p:s,.h$,.X123X,:s,.cpp$,.h,:s,.X123X$,.cpp,<CR>
 
+nmap <C-n> :cn<cr>
+nmap <C-p> :cp<cr>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
@@ -336,6 +338,7 @@ map <leader>o :BufExplorer<cr>
 " => CTRL-P
 """"""""""""""""""""""""""""""
 let g:ctrlp_working_path_mode = 0
+let g:ctrlp_map = '<C-f>'
 
 " Quickly find and open a buffer
 map <leader>b :CtrlPBuffer<cr>
@@ -343,15 +346,22 @@ map <leader>b :CtrlPBuffer<cr>
 " Quickly find and open a recently opened file
 map <leader>f :CtrlPMRU<CR>
 
-" Quickly find and open a file in the current working directory
-map <leader>j :CtrlP<cr>
-
 let g:ctrlp_max_height = 15
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/](\.(git|hg|svn))|(build|nbproject|bin|dist)$',
   \ 'file': '\v\.(exe|o|so|d|dll)$',
   \ 'link': 'some_bad_symbolic_links',
   \ }
+
+
+""""""""""""""""""""""""""""""
+" => Auto-pairs
+""""""""""""""""""""""""""""""
+let g:AutoPairsShortcutToggle=''
+let g:AutoPairsShortcutFastWrap='<C-e>'
+let g:AutoPairsShortcutJump='<C-b>'
+let g:AutoPairsShortcutBackInsert=''
+let g:AutoPairsMultilineClose = 0
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
