@@ -470,6 +470,21 @@ hi! CocErrorSign guifg=#d1666a
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Helper functions
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Add `:PClint path` command for opening lint errors in quickfix
+command! -nargs=0 PClintLoad :call LoadLintErrors()
+
+function! LoadLintErrors()
+    let l:preparedErrors = []
+    for line in uniq(readfile(expand('%:p')))
+        let l = substitute(line, '\', '/', 'g')
+        if (len(l) > 3) && (l[0] == '/') && (l[1] != '/') && (l[2] != '/')
+            call add(l:preparedErrors, l)
+        endif
+    endfor
+    call setqflist([], ' ', {'lines': l:preparedErrors, 'efm': '%f\ \ %l\ \ %m'})
+    copen
+endfunction 
+
 function! CmdLine(str)
     call feedkeys(":" . a:str)
 endfunction 
