@@ -153,6 +153,7 @@ set guioptions-=L
 " Set extra options when running in GUI mode
 set guioptions-=T
 set guioptions-=e
+set guioptions-=m
 set t_Co=256
 set guitablabel=%M\ %t
 
@@ -477,7 +478,7 @@ function! LoadLintErrors()
     let l:preparedErrors = []
     for line in uniq(readfile(expand('%:p')))
         let l = substitute(line, '\', '/', 'g')
-        if (len(l) > 3) && (l[0] == '/') && (l[1] != '/') && (l[2] != '/')
+        if (len(l) > 3) && (l[0] =~ '^\a\+$')
             call add(l:preparedErrors, l)
         endif
     endfor
