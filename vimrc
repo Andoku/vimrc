@@ -9,8 +9,6 @@ Plug 'tpope/vim-surround'
 Plug 'itchyny/lightline.vim'
 Plug 'preservim/nerdtree'
 Plug 'bfrg/vim-cpp-modern'
-Plug 'mileszs/ack.vim'
-Plug 'ctrlpvim/ctrlp.vim'
 Plug 'cdelledonne/vim-cmake'
 Plug 'jiangmiao/auto-pairs'
 Plug 'airblade/vim-gitgutter'
@@ -77,9 +75,6 @@ set wildignore+=*/build,*/__pycache__/*
 
 "Always show current position
 set ruler
-
-" Height of the command bar
-set cmdheight=1
 
 " A buffer becomes hidden when it is abandoned
 set hidden
@@ -159,7 +154,7 @@ set guioptions-=m
 set t_Co=256
 set guitablabel=%M\ %t
 
-" Colorscheme
+" colorscheme
 colorscheme peaksea
 
 " Enable syntax highlighting
@@ -186,6 +181,13 @@ set signcolumn=yes
 set nobackup
 set nowb
 set noswapfile
+
+" Turn persistent undo on means that you can undo even when you close a buffer/VIM
+try
+    set undodir=~/.vim/undodir
+    set undofile
+catch
+endtry
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -218,6 +220,8 @@ set wrap "Wrap lines
 vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
 " When you press <leader>r you can search and replace the selected text
 vnoremap <silent> <leader>r :call VisualSelection('replace', '')<CR>
+" When you press gv you Ack after the selected text
+vnoremap <silent> gv :call VisualSelection('gv', '')<CR>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -237,7 +241,7 @@ map <C-l> <C-W>l
 map <leader>te :tabedit <C-r>=expand("%:p:h")<cr>/
 
 " Return to last edit position when opening files (You want this!)
-" au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
 " Specify the behavior when switching between buffers 
 set switchbuf=useopen,usetab
@@ -299,7 +303,7 @@ let g:lightline = {
 " => Nerd Tree
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let NERDTreeHijackNetrw=1
-let g:NERDTreeWinPos = "right"
+let g:NERDTreeWinPos="right"
 let g:NERDTreeRespectWildIgnore=1
 let g:NERDTreeWinSize=35
 let g:NERDTreeChDirMode=3
@@ -332,35 +336,6 @@ command! Gqf GitGutterQuickFix | copen
 
 
 """"""""""""""""""""""""""""""
-" => bufexplorer plugin
-""""""""""""""""""""""""""""""
-" let g:bufExplorerDefaultHelp=0
-" let g:bufExplorerShowRelativePath=1
-" let g:bufExplorerSortBy='name'
-map <leader>o :BufExplorer<cr>
-
-
-""""""""""""""""""""""""""""""
-" => CTRL-P
-""""""""""""""""""""""""""""""
-let g:ctrlp_working_path_mode = 0
-let g:ctrlp_map = '<C-f>'
-
-" Quickly find and open a buffer
-map <leader>b :CtrlPBuffer<cr>
-
-" Quickly find and open a recently opened file
-map <leader>f :CtrlPMRU<CR>
-
-let g:ctrlp_max_height = 15
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/](\.(git|hg|svn))|(build|nbproject|bin|dist)$',
-  \ 'file': '\v\.(exe|o|so|d|dll)$',
-  \ 'link': 'some_bad_symbolic_links',
-  \ }
-
-
-""""""""""""""""""""""""""""""
 " => FZF
 """"""""""""""""""""""""""""""
 " Customize fzf colors to match your color scheme
@@ -379,10 +354,12 @@ let g:ctrlp_custom_ignore = {
 "   \ 'marker':  ['fg', 'Keyword'],
 "   \ 'spinner': ['fg', 'Label'],
 "   \ 'header':  ['fg', 'Comment'] }
+
 let $BAT_THEME='Nord'
-let $FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --layout reverse --preview 'bat --color=always --style=header,grid --line-range :300 {}'"
+let g:fzf_preview_window = 'right:60%'
 command! -bang -nargs=* Rg
     \ call fzf#vim#grep("rg --line-number --no-heading --trim --color=always --smart-case -- ".shellescape(<q-args>), 1, fzf#vim#with_preview(), <bang>0) 
+nnoremap <silent> <C-space> :Files<CR>
 
 
 """"""""""""""""""""""""""""""
@@ -468,16 +445,6 @@ omap ic <Plug>(coc-classobj-i)
 xmap ac <Plug>(coc-classobj-a)
 omap ac <Plug>(coc-classobj-a)
 
-" Remap <C-f> and <C-b> for scroll float windows/popups.
-if has('nvim-0.4.0') || has('patch-8.2.0750')
-  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
-  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
-  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-endif
-
 " Use CTRL-S for selections ranges.
 " Requires 'textDocument/selectionRange' support of language server.
 nmap <silent> <C-s> <Plug>(coc-range-select)
@@ -524,7 +491,7 @@ function! VisualSelection(direction, extra_filter) range
     let l:pattern = substitute(l:pattern, "\n$", "", "")
 
     if a:direction == 'gv'
-        call CmdLine("Ack '" . l:pattern . "' " )
+        call CmdLine("Rg '" . l:pattern . "' " )
     elseif a:direction == 'replace'
         call CmdLine("%s" . '/'. l:pattern . '/')
     endif
