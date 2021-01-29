@@ -16,6 +16,8 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'airblade/vim-gitgutter'
 Plug 'jlanzarotta/bufexplorer'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 call plug#end()
 
 let g:plug_window = 'tabnew'
@@ -45,7 +47,7 @@ command! W execute 'w !sudo tee % > /dev/null' <bar> edit!
 map <leader>e :e! ~/.vim/vimrc<cr>
 
 " fast close terminal
-tnoremap <Esc> <C-\><C-n>:bd!<CR>
+" tnoremap <Esc> <C-\><C-n>:bd!<CR>
 
 " Open splits below
 set splitbelow
@@ -356,6 +358,31 @@ let g:ctrlp_custom_ignore = {
   \ 'file': '\v\.(exe|o|so|d|dll)$',
   \ 'link': 'some_bad_symbolic_links',
   \ }
+
+
+""""""""""""""""""""""""""""""
+" => FZF
+""""""""""""""""""""""""""""""
+" Customize fzf colors to match your color scheme
+" - fzf#wrap translates this to a set of `--color` options
+" let g:fzf_colors =
+" \ { 'fg':      ['fg', 'Normal'],
+"   \ 'bg':      ['bg', 'Normal'],
+"   \ 'hl':      ['fg', 'Comment'],
+"   \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+"   \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+"   \ 'hl+':     ['fg', 'Statement'],
+"   \ 'info':    ['fg', 'PreProc'],
+"   \ 'border':  ['fg', 'Ignore'],
+"   \ 'prompt':  ['fg', 'Conditional'],
+"   \ 'pointer': ['fg', 'Exception'],
+"   \ 'marker':  ['fg', 'Keyword'],
+"   \ 'spinner': ['fg', 'Label'],
+"   \ 'header':  ['fg', 'Comment'] }
+let $BAT_THEME='Nord'
+let $FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --layout reverse --preview 'bat --color=always --style=header,grid --line-range :300 {}'"
+command! -bang -nargs=* Rg
+    \ call fzf#vim#grep("rg --line-number --no-heading --trim --color=always --smart-case -- ".shellescape(<q-args>), 1, fzf#vim#with_preview(), <bang>0) 
 
 
 """"""""""""""""""""""""""""""
