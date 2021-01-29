@@ -8,7 +8,8 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'itchyny/lightline.vim'
 Plug 'preservim/nerdtree'
-Plug 'bfrg/vim-cpp-modern'
+" Plug 'bfrg/vim-cpp-modern'
+Plug 'sheerun/vim-polyglot'
 Plug 'cdelledonne/vim-cmake'
 Plug 'jiangmiao/auto-pairs'
 Plug 'airblade/vim-gitgutter'
@@ -16,6 +17,7 @@ Plug 'jlanzarotta/bufexplorer'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'rakr/vim-one'
 call plug#end()
 
 let g:plug_window = 'tabnew'
@@ -128,6 +130,15 @@ augroup end
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors, Fonts and GUI
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if (has("nvim"))
+  "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
+  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+endif
+
+if (has("termguicolors"))
+  set termguicolors
+endif
+
 " Set font according to system
 if has("mac") || has("macunix")
     set gfn=IBM\ Plex\ Mono:h14,Hack:h14,Source\ Code\ Pro:h15,Menlo:h15
@@ -154,14 +165,17 @@ set guioptions-=m
 set t_Co=256
 set guitablabel=%M\ %t
 
-" colorscheme
-colorscheme peaksea
+" colorscheme peaksea
+
+let g:one_allow_italics = 1
+set background=dark
+colorscheme one
 
 " Enable syntax highlighting
 syntax enable 
 
 " Doxygen highlighting
-let g:load_doxygen_syntax = 1
+" let g:load_doxygen_syntax=1
 
 " Set utf8 as standard encoding
 set encoding=utf8
@@ -278,7 +292,7 @@ set noshowmode
 
 " lightline configuration
 let g:lightline = {
-      \ 'colorscheme': 'wombat',
+      \ 'colorscheme': 'one',
       \ 'active': {
       \   'left': [ ['mode', 'paste'],
       \             ['fugitive', 'readonly', 'filename', 'modified'] ],
@@ -338,28 +352,24 @@ command! Gqf GitGutterQuickFix | copen
 """"""""""""""""""""""""""""""
 " => FZF
 """"""""""""""""""""""""""""""
-" Customize fzf colors to match your color scheme
-" - fzf#wrap translates this to a set of `--color` options
-" let g:fzf_colors =
-" \ { 'fg':      ['fg', 'Normal'],
-"   \ 'bg':      ['bg', 'Normal'],
-"   \ 'hl':      ['fg', 'Comment'],
-"   \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-"   \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-"   \ 'hl+':     ['fg', 'Statement'],
-"   \ 'info':    ['fg', 'PreProc'],
-"   \ 'border':  ['fg', 'Ignore'],
-"   \ 'prompt':  ['fg', 'Conditional'],
-"   \ 'pointer': ['fg', 'Exception'],
-"   \ 'marker':  ['fg', 'Keyword'],
-"   \ 'spinner': ['fg', 'Label'],
-"   \ 'header':  ['fg', 'Comment'] }
-
-let $BAT_THEME='Nord'
-let g:fzf_preview_window = 'right:60%'
+let $BAT_THEME='TwoDark'
+let g:fzf_preview_window = 'up:70%'
+let g:fzf_layout = { 'window': 'enew' }
 command! -bang -nargs=* Rg
-    \ call fzf#vim#grep("rg --line-number --no-heading --trim --color=always --smart-case -- ".shellescape(<q-args>), 1, fzf#vim#with_preview(), <bang>0) 
-nnoremap <silent> <C-space> :Files<CR>
+    \ call fzf#vim#grep("rg --column --line-number --trim --no-heading --color=always --smart-case -- ".shellescape(<q-args>), 1, fzf#vim#with_preview(), <bang>0) 
+nmap <silent> <C-f> :Files<CR>
+nmap <silent> <C-l> :Lines<CR>
+nmap <silent> <space> :RG<CR>
+
+function! RipgrepFzf(query, fullscreen)
+  let command_fmt = 'rg --column --line-number --trim --no-heading --color=always --smart-case -- %s || true'
+  let initial_command = printf(command_fmt, shellescape(a:query))
+  let reload_command = printf(command_fmt, '{q}')
+  let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+endfunction
+
+command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 
 
 """"""""""""""""""""""""""""""
