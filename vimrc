@@ -7,17 +7,13 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'itchyny/lightline.vim'
-Plug 'preservim/nerdtree'
-" Plug 'bfrg/vim-cpp-modern'
 Plug 'sheerun/vim-polyglot'
 Plug 'cdelledonne/vim-cmake'
 Plug 'jiangmiao/auto-pairs'
-Plug 'airblade/vim-gitgutter'
-Plug 'jlanzarotta/bufexplorer'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'rakr/vim-one'
+Plug 'joshdick/onedark.vim'
 call plug#end()
 
 let g:plug_window = 'tabnew'
@@ -31,6 +27,8 @@ filetype indent on
 
 " Set to auto read when a file is changed from the outside
 set autoread
+
+set updatetime=100
 
 " With a map leader it's possible to do extra key combinations
 " like <leader>w saves the current file
@@ -126,6 +124,9 @@ augroup DragQuickfixWindowDown
     autocmd FileType qf wincmd J
 augroup end
 
+" Equal splits on resize
+:autocmd VimResized * wincmd =
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors, Fonts and GUI
@@ -140,16 +141,15 @@ if (has("termguicolors"))
 endif
 
 " Set font according to system
-if has("mac") || has("macunix")
-    set gfn=IBM\ Plex\ Mono:h14,Hack:h14,Source\ Code\ Pro:h15,Menlo:h15
-elseif has("win16") || has("win32")
-    set gfn=IBM\ Plex\ Mono:h14,Source\ Code\ Pro:h12,Bitstream\ Vera\ Sans\ Mono:h11
-elseif has("gui_gtk2")
-    set gfn=IBM\ Plex\ Mono\ 14,:Hack\ 14,Source\ Code\ Pro\ 12,Bitstream\ Vera\ Sans\ Mono\ 11
-elseif has("linux")
-    set gfn=IBM\ Plex\ Mono\ 14,:Hack\ 14,Source\ Code\ Pro\ 12,Bitstream\ Vera\ Sans\ Mono\ 11
-elseif has("unix")
-    set gfn=Monospace\ 11
+if has("mac") 
+    set gfn=Blex\ Mono\ Nerd\ Font\ Complete\ Mono:h16,
+                \IBM\ Plex\ Mono:h16,
+                \Hack:h16,Source\ Code\ Pro:h16,Menlo:h16
+else
+    set gfn=Blex\ Mono\ Nerd\ Font\ Complete\ Mono\ 16,
+                \IBM\ Plex\ Mono\ 16,
+                \:Hack\ 16,Source\ Code\ Pro\ 16,
+                \Bitstream\ Vera\ Sans\ Mono\ 16
 endif
 
 " Disable scrollbars (real hackers don't use scrollbars for navigation!)
@@ -165,14 +165,16 @@ set guioptions-=m
 set t_Co=256
 set guitablabel=%M\ %t
 
-" colorscheme peaksea
-
-let g:one_allow_italics = 1
 set background=dark
-colorscheme one
+
+" let g:onedark_terminal_italics = 1
+let g:onedark_hide_endofbuffer = 1
+colorscheme onedark
 
 " Enable syntax highlighting
 syntax enable 
+let g:cpp_simple_highlight = 1
+" let g:cpp_member_highlight = 1
 
 " Doxygen highlighting
 " let g:load_doxygen_syntax=1
@@ -234,8 +236,8 @@ set wrap "Wrap lines
 vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
 " When you press <leader>r you can search and replace the selected text
 vnoremap <silent> <leader>r :call VisualSelection('replace', '')<CR>
-" When you press gv you Ack after the selected text
-vnoremap <silent> gv :call VisualSelection('gv', '')<CR>
+" Grep after the selected text
+vnoremap <silent> <C-g> :call VisualSelection('rg', '')<CR>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -273,7 +275,7 @@ nmap <M-k> mz:m-2<cr>`z
 vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
 vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
 
-if has("mac") || has("macunix")
+if has("mac")
     nmap <D-j> <M-j>
     nmap <D-k> <M-k>
     vmap <D-j> <M-j>
@@ -314,55 +316,49 @@ let g:lightline = {
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Nerd Tree
+" => Coc-explorer
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let NERDTreeHijackNetrw=1
-let g:NERDTreeWinPos="right"
-let g:NERDTreeRespectWildIgnore=1
-let g:NERDTreeWinSize=35
-let g:NERDTreeChDirMode=3
-
-map <leader>nn :NERDTreeToggle<cr>
-map <leader>nb :NERDTreeFromBookmark<Space>
-map <leader>nf :NERDTreeFind<cr>
-
-" Exit Vim if NERDTree is the only window left.
-autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && 
-    \ exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+nmap <leader>m :CocCommand explorer --position right<CR>
+autocmd BufEnter * if (winnr("$") == 1 && &filetype == 'coc-explorer') | q | endif
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Git fugitive
+" => Coc-explorer
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-if &diff
-    set diffopt-=internal
-    set diffopt+=vertical,foldcolumn:0
-endif
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Git gutter
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set updatetime=100
-nmap ]h <Plug>(GitGutterNextHunk)
-nmap [h <Plug>(GitGutterPrevHunk)
-command! Gqf GitGutterQuickFix | copen
+" navigate chunks of current buffer
+nmap [h <Plug>(coc-git-prevchunk)
+nmap ]h <Plug>(coc-git-nextchunk)
+" navigate conflicts of current buffer
+nmap [c <Plug>(coc-git-prevconflict)
+nmap ]c <Plug>(coc-git-nextconflict)
+" show chunk diff at current position
+nmap gs <Plug>(coc-git-chunkinfo)
+" show commit contains current position
+nmap gc <Plug>(coc-git-commit)
+" create text object for git chunks
+omap ig <Plug>(coc-git-chunk-inner)
+xmap ig <Plug>(coc-git-chunk-inner)
+omap ag <Plug>(coc-git-chunk-outer)
+xmap ag <Plug>(coc-git-chunk-outer)
 
 
 """"""""""""""""""""""""""""""
 " => FZF
 """"""""""""""""""""""""""""""
 let $BAT_THEME='TwoDark'
+let $FZF_DEFAULT_COMMAND='rg --files --hidden --follow --no-ignore-vcs --color=always -g "!{build,.git,.svn}"'
+let $FZF_DEFAULT_OPTS='--ansi'
 let g:fzf_preview_window = 'up:70%'
 let g:fzf_layout = { 'window': 'enew' }
+
 command! -bang -nargs=* Rg
-    \ call fzf#vim#grep("rg --column --line-number --trim --no-heading --color=always --smart-case -- ".shellescape(<q-args>), 1, fzf#vim#with_preview(), <bang>0) 
+    \ call fzf#vim#grep("rg --line-number --trim --no-heading --color=always --smart-case -- ".shellescape(<q-args>), 1, fzf#vim#with_preview(), <bang>0) 
 nmap <silent> <C-f> :Files<CR>
-nmap <silent> <C-l> :Lines<CR>
-nmap <silent> <space> :RG<CR>
+nmap <silent> <C-g> :RG<CR>
+nmap <silent> <space> :Rg<CR>
 
 function! RipgrepFzf(query, fullscreen)
-  let command_fmt = 'rg --column --line-number --trim --no-heading --color=always --smart-case -- %s || true'
+  let command_fmt = 'rg --line-number --trim --no-heading --color=always --smart-case -- %s || true'
   let initial_command = printf(command_fmt, shellescape(a:query))
   let reload_command = printf(command_fmt, '{q}')
   let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
@@ -386,22 +382,25 @@ let g:AutoPairsMultilineClose = 0
 " => Coc.nvim
 """"""""""""""""""""""""""""""
 
+" Auto install extensions
+let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-python', 'coc-clangd']
+
 " Don't pass messages to |ins-completion-menu|.
 set shortmess+=c
 
-" Make <tab> used for trigger completion, completion confirm, snippet expand and jump like VSCode.
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? coc#_select_confirm() :
-      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
-
-let g:coc_snippet_next = '<tab>'
 
 " Make <CR> auto-select the first completion item and notify coc.nvim to
 " format on enter, <cr> could be remapped by other vim plugin
@@ -441,8 +440,6 @@ nmap <leader>a  <Plug>(coc-codeaction-selected)
 
 " Remap keys for applying codeAction to the current buffer.
 nmap <leader>ac  <Plug>(coc-codeaction)
-" Apply AutoFix to problem on the current line.
-nmap <leader>f  <Plug>(coc-fix-current)
 
 " Map function and class text objects
 " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
@@ -469,7 +466,6 @@ command! -nargs=? Fold :call CocAction('fold', <f-args>)
 " Add `:OR` command for organize imports of the current buffer.
 command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport')
 
-hi! CocErrorSign guifg=#d1666a
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Helper functions
@@ -500,8 +496,8 @@ function! VisualSelection(direction, extra_filter) range
     let l:pattern = escape(@", "\\/.*'$^~[]")
     let l:pattern = substitute(l:pattern, "\n$", "", "")
 
-    if a:direction == 'gv'
-        call CmdLine("Rg '" . l:pattern . "' " )
+    if a:direction == 'rg'
+        call CmdLine("RG " . l:pattern . "\<CR>")
     elseif a:direction == 'replace'
         call CmdLine("%s" . '/'. l:pattern . '/')
     endif
@@ -514,16 +510,12 @@ endfunction
 function! InstallVimPlug()
     let vimplug_exists = expand('~/.vim/autoload/plug.vim')
     if !filereadable(vimplug_exists)
-        if !executable("curl")
-            echoerr "You have to install curl or first install vim-plug yourself!"
-            execute "q!"
-        endif
         echo "Installing Vim-Plug..."
         echo ""
-        silent !\curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+        silent !\curl -fLo ~/.vim/autoload/plug.vim 
+            \--create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
         autocmd VimEnter * PlugInstall
     endif
 endfunction
-
 
 call InstallVimPlug()
