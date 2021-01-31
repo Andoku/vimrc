@@ -18,6 +18,7 @@ call plug#end()
 
 let g:plug_window = 'tabnew'
 
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -29,6 +30,9 @@ filetype indent on
 set autoread
 
 set updatetime=100
+
+" Remap VIM 0 to first non-blank character
+map 0 ^
 
 " With a map leader it's possible to do extra key combinations
 " like <leader>w saves the current file
@@ -55,6 +59,7 @@ nnoremap <F4> :e %:p:s,.h$,.X123X,:s,.cpp$,.h,:s,.X123X$,.cpp,<CR>
 
 nmap <C-n> :cn<cr>
 nmap <C-p> :cp<cr>
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
@@ -113,10 +118,10 @@ if has("gui_macvim")
 endif
 
 " Open help in tab
-augroup filetype_help
+augroup FiletypeHelp
     autocmd!
     autocmd BufWinEnter * if &l:buftype ==# 'help' | execute "normal \<C-W>T" | endif
-augroup END
+augroup end
 
 " Open quickfix downside
 augroup DragQuickfixWindowDown
@@ -124,8 +129,15 @@ augroup DragQuickfixWindowDown
     autocmd FileType qf wincmd J
 augroup end
 
+" Hide signcolumn in diff mode
+augroup TurnOffSignColumn
+    autocmd!
+    autocmd OptionSet diff setlocal signcolumn=no | setlocal foldcolumn=0
+    autocmd BufEnter * if !&diff | setlocal signcolumn=yes | endif 
+augroup end
+
 " Equal splits on resize
-:autocmd VimResized * wincmd =
+autocmd VimResized * wincmd =
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -199,11 +211,8 @@ set nowb
 set noswapfile
 
 " Turn persistent undo on means that you can undo even when you close a buffer/VIM
-try
-    set undodir=~/.vim/undodir
-    set undofile
-catch
-endtry
+set undodir=~/.vim/undodir
+set undofile
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -252,35 +261,11 @@ map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
 
-" Opens a new tab with the current buffer's path
-" Super useful when editing files in the same directory
-map <leader>te :tabedit <C-r>=expand("%:p:h")<cr>/
-
 " Return to last edit position when opening files (You want this!)
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
 " Specify the behavior when switching between buffers 
 set switchbuf=useopen,usetab
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Editing mappings
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Remap VIM 0 to first non-blank character
-map 0 ^
-
-" Move a line of text using ALT+[jk] or Command+[jk] on mac
-nmap <M-j> mz:m+<cr>`z
-nmap <M-k> mz:m-2<cr>`z
-vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
-vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
-
-if has("mac")
-    nmap <D-j> <M-j>
-    nmap <D-k> <M-k>
-    vmap <D-j> <M-j>
-    vmap <D-k> <M-k>
-endif
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -316,6 +301,15 @@ let g:lightline = {
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => vim-fugitive
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Turn off line numbers in Git status
+autocmd FileType fugitive setlocal nonumber
+" Mapping to open diff in new tab
+autocmd User FugitiveIndex nmap <buffer> dt :Gtabedit <Plug><cfile><Bar>Gvdiffsplit<CR>
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Coc-explorer
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nmap <leader>m :CocCommand explorer --position right<CR>
@@ -323,7 +317,7 @@ autocmd BufEnter * if (winnr("$") == 1 && &filetype == 'coc-explorer') | q | end
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Coc-explorer
+" => Coc-git
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " navigate chunks of current buffer
 nmap [h <Plug>(coc-git-prevchunk)
@@ -333,8 +327,6 @@ nmap [c <Plug>(coc-git-prevconflict)
 nmap ]c <Plug>(coc-git-nextconflict)
 " show chunk diff at current position
 nmap gs <Plug>(coc-git-chunkinfo)
-" show commit contains current position
-nmap gc <Plug>(coc-git-commit)
 " create text object for git chunks
 omap ig <Plug>(coc-git-chunk-inner)
 xmap ig <Plug>(coc-git-chunk-inner)
@@ -381,7 +373,6 @@ let g:AutoPairsMultilineClose = 0
 """"""""""""""""""""""""""""""
 " => Coc.nvim
 """"""""""""""""""""""""""""""
-
 " Auto install extensions
 let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-python', 'coc-clangd']
 
@@ -421,13 +412,13 @@ nmap <silent> gr <Plug>(coc-references)
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  elseif (coc#rpc#ready())
-    call CocActionAsync('doHover')
-  else
-    execute '!' . &keywordprg . " " . expand('<cword>')
-  endif
+    if (index(['vim','help'], &filetype) >= 0)
+        execute 'h '.expand('<cword>')
+    elseif (coc#rpc#ready())
+        call CocActionAsync('doHover')
+    else
+        execute '!' . &keywordprg . " " . expand('<cword>')
+    endif
 endfunction
 
 " Symbol renaming.
