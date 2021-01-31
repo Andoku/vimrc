@@ -364,11 +364,11 @@ command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 """"""""""""""""""""""""""""""
 " => Auto-pairs
 """"""""""""""""""""""""""""""
-let g:AutoPairsShortcutToggle=''
 let g:AutoPairsShortcutFastWrap='<C-e>'
-let g:AutoPairsShortcutJump='<C-b>'
+let g:AutoPairsShortcutToggle=''
+let g:AutoPairsShortcutJump=''
 let g:AutoPairsShortcutBackInsert=''
-let g:AutoPairsMultilineClose = 0
+let g:AutoPairsMultilineClose=0
 
 
 """"""""""""""""""""""""""""""
