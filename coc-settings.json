@@ -4,5 +4,11 @@
     "suggest.labelMaxLength": 40,
     "suggest.noselect": false,
 
-    "explorer.icon.enableNerdfont": true
+    "explorer.icon.enableNerdfont": true,
+
+    "git.addedSign.hlGroup": "Title",
+    "git.changedSign.hlGroup": "WarningMsg",
+    "git.removedSign.hlGroup": "ErrorMsg",
+    "git.topRemovedSign.hlGroup": "ErrorMsg",
+    "git.changeRemovedSign.hlGroup": "WarningMsg"
 }
