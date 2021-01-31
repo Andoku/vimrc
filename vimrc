@@ -346,6 +346,7 @@ let g:fzf_layout = { 'window': 'enew' }
 command! -bang -nargs=* Rg
     \ call fzf#vim#grep("rg --line-number --trim --no-heading --color=always --smart-case -- ".shellescape(<q-args>), 1, fzf#vim#with_preview(), <bang>0) 
 nmap <silent> <C-f> :Files<CR>
+nmap <silent> <C-b> :Buffers<CR>
 nmap <silent> <C-g> :RG<CR>
 nmap <silent> <space> :Rg<CR>
 
