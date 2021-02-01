@@ -5,6 +5,7 @@
     "suggest.noselect": false,
 
     "explorer.icon.enableNerdfont": true,
+    "explorer.width": 30,
 
     "git.addedSign.hlGroup": "Title",
     "git.changedSign.hlGroup": "WarningMsg",
