@@ -371,6 +371,8 @@ let g:AutoPairsMultilineClose=0
 """"""""""""""""""""""""""""""
 " => Coc.nvim
 """"""""""""""""""""""""""""""
+hi! CocErrorSign guifg=#d1666a
+
 " Auto install extensions
 let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-python', 'coc-clangd', 'coc-explorer']
 
