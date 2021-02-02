@@ -46,10 +46,7 @@ nmap <leader>w :w!<cr>
 command! W execute 'w !sudo tee % > /dev/null' <bar> edit!
 
 " fast edit .vimrc
-map <leader>e :e! ~/.vim/vimrc<cr>
-
-" fast close terminal
-" tnoremap <Esc> <C-\><C-n>:bd!<CR>
+map <leader>e :e! $MYVIMRC<cr>
 
 " Open splits below
 set splitbelow
@@ -57,8 +54,12 @@ set splitbelow
 " Switch between .cpp and .h files
 nnoremap <F4> :e %:p:s,.h$,.X123X,:s,.cpp$,.h,:s,.X123X$,.cpp,<CR>
 
+" Navigate quickfix list
 nmap <C-n> :cn<cr>
 nmap <C-p> :cp<cr>
+
+" Disable search highlight
+map <silent> <leader><cr> :noh<cr>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -77,9 +78,6 @@ set wildmenu
 set wildignore=*.o,*~,*.pyc
 set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
 set wildignore+=*/build,*/__pycache__/*
-
-"Always show current position
-set ruler
 
 " A buffer becomes hidden when it is abandoned
 set hidden
@@ -178,12 +176,11 @@ set guitablabel=%M\ %t
 
 set background=dark
 
-if (has("autocmd"))
-    augroup colorextend
-        autocmd!
-        autocmd ColorScheme * call onedark#extend_highlight("Normal", { "bg": { "gui": "#202020" }, "fg": { "gui": "#d0d0d0" }})
-    augroup END
-endif
+" Change default background color for onedark theme
+augroup colorextend
+    autocmd!
+    autocmd ColorScheme * call onedark#extend_highlight("Normal", { "bg": { "gui": "#202020" }, "fg": { "gui": "#d0d0d0" }})
+augroup END
 
 " let g:onedark_terminal_italics = 1
 let g:onedark_hide_endofbuffer = 1
@@ -258,9 +255,6 @@ vnoremap <silent> <C-g> :call VisualSelection('rg', '')<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Moving around, tabs, windows and buffers
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Disable highlight when <leader><cr> is pressed
-map <silent> <leader><cr> :noh<cr>
-
 " Smart way to move between windows
 map <C-j> <C-W>j
 map <C-k> <C-W>k
@@ -294,7 +288,7 @@ let g:lightline = {
       \ 'component_function': {
       \   'gitbranch': 'FugitiveHead'
       \ },
-      \ } 
+      \ }
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -304,31 +298,6 @@ let g:lightline = {
 autocmd FileType fugitive setlocal nonumber
 " Mapping to open diff in new tab
 autocmd User FugitiveIndex nmap <buffer> dt :Gtabedit <Plug><cfile><Bar>Gvdiffsplit<CR>
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Coc-explorer
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nmap <leader>m :CocCommand explorer --position right<CR>
-autocmd BufEnter * if (winnr("$") == 1 && &filetype == 'coc-explorer') | q | endif
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Coc-git
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" navigate chunks of current buffer
-nmap [h <Plug>(coc-git-prevchunk)
-nmap ]h <Plug>(coc-git-nextchunk)
-" navigate conflicts of current buffer
-nmap [c <Plug>(coc-git-prevconflict)
-nmap ]c <Plug>(coc-git-nextconflict)
-" show chunk diff at current position
-nmap gs <Plug>(coc-git-chunkinfo)
-" create text object for git chunks
-omap ig <Plug>(coc-git-chunk-inner)
-xmap ig <Plug>(coc-git-chunk-inner)
-omap ag <Plug>(coc-git-chunk-outer)
-xmap ag <Plug>(coc-git-chunk-outer)
 
 
 """"""""""""""""""""""""""""""
@@ -450,6 +419,32 @@ xmap <silent> <C-s> <Plug>(coc-range-select)
 
 " Add `:Format` command to format current buffer.
 command! -nargs=0 Format :call CocAction('format')
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Coc-explorer
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nmap <leader>m :CocCommand explorer --position right<CR>
+autocmd BufEnter * if (winnr("$") == 1 && &filetype == 'coc-explorer') | q | endif
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Coc-git
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" navigate chunks of current buffer
+nmap [h <Plug>(coc-git-prevchunk)
+nmap ]h <Plug>(coc-git-nextchunk)
+" navigate conflicts of current buffer
+nmap [c <Plug>(coc-git-prevconflict)
+nmap ]c <Plug>(coc-git-nextconflict)
+" show chunk diff at current position
+nmap gs <Plug>(coc-git-chunkinfo)
+" create text object for git chunks
+omap ig <Plug>(coc-git-chunk-inner)
+xmap ig <Plug>(coc-git-chunk-inner)
+omap ag <Plug>(coc-git-chunk-outer)
+xmap ag <Plug>(coc-git-chunk-outer)
+
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
