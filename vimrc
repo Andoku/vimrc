@@ -158,8 +158,7 @@ if has("mac")
                 \IBM\ Plex\ Mono:h16,
                 \Hack:h16,Source\ Code\ Pro:h16,Menlo:h16
 else
-    set gfn=Blex\ Mono\ Nerd\ Font\ Complete\ Mono\ 16,
-                \IBM\ Plex\ Mono\ 16,
+    set gfn=IBM\ Plex\ Mono\ 16,
                 \:Hack\ 16,Source\ Code\ Pro\ 16,
                 \Bitstream\ Vera\ Sans\ Mono\ 16
 endif
@@ -178,6 +177,13 @@ set t_Co=256
 set guitablabel=%M\ %t
 
 set background=dark
+
+if (has("autocmd"))
+    augroup colorextend
+        autocmd!
+        autocmd ColorScheme * call onedark#extend_highlight("Normal", { "bg": { "gui": "#202020" }, "fg": { "gui": "#d0d0d0" }})
+    augroup END
+endif
 
 " let g:onedark_terminal_italics = 1
 let g:onedark_hide_endofbuffer = 1
@@ -375,7 +381,7 @@ let g:AutoPairsMultilineClose=0
 " => Coc.nvim
 """"""""""""""""""""""""""""""
 " Auto install extensions
-let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-python', 'coc-clangd']
+let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-python', 'coc-clangd', 'coc-explorer']
 
 " Don't pass messages to |ins-completion-menu|.
 set shortmess+=c
