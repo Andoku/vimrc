@@ -14,6 +14,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'joshdick/onedark.vim'
+Plug 'psliwka/vim-smoothie'
 call plug#end()
 
 let g:plug_window = 'tabnew'
@@ -183,7 +184,6 @@ augroup colorextend
 augroup END
 
 let g:onedark_terminal_italics = 1
-let g:onedark_hide_endofbuffer = 1
 colorscheme onedark
 
 " Enable syntax highlighting
