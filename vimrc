@@ -304,7 +304,7 @@ autocmd User FugitiveIndex nmap <buffer> dt :Gtabedit <Plug><cfile><Bar>Gvdiffsp
 " => FZF
 """"""""""""""""""""""""""""""
 let $BAT_THEME='TwoDark'
-let $FZF_DEFAULT_COMMAND='rg --files --hidden --follow --no-ignore-vcs --color=always -g "!{build,.git,.svn}"'
+let $FZF_DEFAULT_COMMAND='rg --files --hidden --follow --no-ignore-vcs --color=always -g "!{build,.git,.svn,.cache}"'
 let $FZF_DEFAULT_OPTS='--ansi'
 let g:fzf_preview_window = 'up:70%'
 let g:fzf_layout = { 'window': 'enew' }
