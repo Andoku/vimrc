@@ -183,6 +183,15 @@ augroup colorextend
     autocmd ColorScheme * call onedark#extend_highlight("Normal", { "bg": { "gui": "#202020" }, "fg": { "gui": "#d0d0d0" }})
 augroup END
 
+" Turn off background in terminal
+if !has("gui_running")
+    augroup colorset
+        autocmd!
+        let s:white = { "gui": "#d0d0d0", "cterm": "145", "cterm16" : "7" }
+        autocmd ColorScheme * call onedark#set_highlight("Normal", { "fg": s:white })
+    augroup END
+endif
+
 let g:onedark_terminal_italics = 1
 colorscheme onedark
 
