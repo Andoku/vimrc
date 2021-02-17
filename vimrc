@@ -13,8 +13,8 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'joshdick/onedark.vim'
 Plug 'psliwka/vim-smoothie'
+Plug 'chuling/equinusocio-material.vim'
 call plug#end()
 
 let g:plug_window = 'tabnew'
@@ -177,30 +177,15 @@ set guitablabel=%M\ %t
 
 set background=dark
 
-" Change default background color for onedark theme
-augroup colorextend
-    autocmd!
-    autocmd ColorScheme * call onedark#extend_highlight("Normal", { "bg": { "gui": "#202020" }, "fg": { "gui": "#d0d0d0" }})
-augroup END
-
-" Turn off background in terminal
-if !has("gui_running")
-    augroup colorset
-        autocmd!
-        let s:white = { "gui": "#d0d0d0", "cterm": "145", "cterm16" : "7" }
-        autocmd ColorScheme * call onedark#set_highlight("Normal", { "fg": s:white })
-    augroup END
-endif
-
-let g:onedark_terminal_italics = 1
-colorscheme onedark
+set fillchars+=vert:│
+let g:equinusocio_material_style = 'darker'
+let g:equinusocio_material_less = 30
+colorscheme equinusocio_material
 
 " Enable syntax highlighting
 syntax enable 
 let g:cpp_simple_highlight = 1
 " let g:cpp_member_highlight = 1
-
-" Doxygen highlighting
 " let g:load_doxygen_syntax=1
 
 " Set utf8 as standard encoding
@@ -288,7 +273,7 @@ set noshowmode
 
 " lightline configuration
 let g:lightline = {
-      \ 'colorscheme': 'one',
+      \ 'colorscheme': 'equinusocio_material',
       \ 'active': {
       \   'left': [ ['mode', 'paste'],
       \             ['gitbranch', 'readonly', 'filename', 'modified'] ],
