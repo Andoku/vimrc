@@ -175,14 +175,13 @@ set guioptions-=m
 set t_Co=256
 set guitablabel=%M\ %t
 
-set background=dark
-
+" Colorscheme settings
 set fillchars+=vert:│
 let g:equinusocio_material_style = 'darker'
 let g:equinusocio_material_less = 30
 colorscheme equinusocio_material
 
-" Enable syntax highlighting
+" Syntax settings
 syntax enable 
 let g:cpp_simple_highlight = 1
 " let g:cpp_member_highlight = 1
@@ -334,8 +333,6 @@ let g:AutoPairsMultilineClose=0
 """"""""""""""""""""""""""""""
 " => Coc.nvim
 """"""""""""""""""""""""""""""
-highlight CocErrorSign guifg=#d1666a
-
 " Auto install extensions
 let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-python', 'coc-clangd', 'coc-explorer']
 
