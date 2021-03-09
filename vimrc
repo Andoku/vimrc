@@ -186,6 +186,9 @@ syntax enable
 let g:cpp_simple_highlight = 1
 " let g:cpp_member_highlight = 1
 " let g:load_doxygen_syntax=1
+map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
 " Set utf8 as standard encoding
 set encoding=utf8
@@ -233,9 +236,9 @@ set si "Smart indent
 set wrap "Wrap lines
 
 
-""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Visual mode related
-""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Visual mode pressing * or # searches for the current selection
 " Super useful! From an idea by Michael Naumann
 vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
@@ -293,14 +296,14 @@ autocmd FileType fugitive setlocal nonumber
 autocmd User FugitiveIndex nmap <buffer> dt :Gtabedit <Plug><cfile><Bar>Gvdiffsplit<CR>
 
 
-""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => FZF
-""""""""""""""""""""""""""""""
-let $BAT_THEME='TwoDark'
-let $FZF_DEFAULT_COMMAND='rg --files --hidden --follow --no-ignore-vcs --color=always -g "!{build,.git,.svn,.cache}"'
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let $FZF_DEFAULT_COMMAND='rg --files --hidden --follow --no-ignore-vcs --color=always -g 
+            \"!{build,Release,Debug,.git,.svn,.cache,*.o}"'
 let $FZF_DEFAULT_OPTS='--ansi'
-let g:fzf_preview_window = 'up:70%'
-let g:fzf_layout = { 'window': 'enew' }
+let g:fzf_preview_window = [] 
+let g:fzf_layout = { 'down': '30%' }
 
 command! -bang -nargs=* Rg
     \ call fzf#vim#grep("rg --line-number --trim --no-heading --color=always --smart-case -- ".shellescape(<q-args>), 1, fzf#vim#with_preview(), <bang>0) 
@@ -320,9 +323,9 @@ endfunction
 command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 
 
-""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Auto-pairs
-""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:AutoPairsShortcutFastWrap='<C-e>'
 let g:AutoPairsShortcutToggle=''
 let g:AutoPairsShortcutJump=''
