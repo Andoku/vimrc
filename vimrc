@@ -292,8 +292,10 @@ autocmd User FugitiveIndex nmap <buffer> dt :Gtabedit <Plug><cfile><Bar>Gvdiffsp
 " => Cmake
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nmap <silent> <leader>cb :CMakeBuild -j8<CR>
+nmap <silent> <leader>cg :CMakeGenerate!<CR>
 nmap <silent> <leader>cq :CMakeClose<CR>
-nmap <silent> <leader>ct :CMakeBuild test<CR>
+nmap <silent> <leader>cs <Plug>(CMakeSwitch)
+nmap <silent> <leader>ct :CMakeBuild test -- ARGS="-j8 --output-on-failure"<CR>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
