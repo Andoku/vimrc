@@ -6,6 +6,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
 Plug 'itchyny/lightline.vim'
 Plug 'sheerun/vim-polyglot'
 Plug 'cdelledonne/vim-cmake'
@@ -54,10 +55,6 @@ set splitbelow
 
 " Switch between .cpp and .h files
 nnoremap <F4> :e %:p:s,.h$,.X123X,:s,.cpp$,.h,:s,.X123X$,.cpp,<CR>
-
-" Navigate quickfix list
-nmap <C-n> :cn<cr>
-nmap <C-p> :cp<cr>
 
 " Disable search highlight
 map <silent> <leader><cr> :noh<cr>
@@ -142,14 +139,7 @@ autocmd VimResized * wincmd =
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors, Fonts and GUI
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-if (has("nvim"))
-  "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
-  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-endif
-
-if (has("termguicolors"))
-  set termguicolors
-endif
+set termguicolors
 
 " Set font according to system
 if has("mac") 
@@ -186,6 +176,8 @@ syntax enable
 let g:cpp_simple_highlight = 1
 " let g:cpp_member_highlight = 1
 " let g:load_doxygen_syntax=1
+
+" Show highliting group of current position
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
@@ -294,6 +286,14 @@ let g:lightline = {
 autocmd FileType fugitive setlocal nonumber
 " Mapping to open diff in new tab
 autocmd User FugitiveIndex nmap <buffer> dt :Gtabedit <Plug><cfile><Bar>Gvdiffsplit<CR>
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Cmake
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nmap <silent> <leader>cc :CMakeBuild -j8<CR>
+nmap <silent> <leader>cq :CMakeClose<CR>
+nmap <silent> <leader>ct :CMakeBuild test<CR>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -438,7 +438,6 @@ omap ig <Plug>(coc-git-chunk-inner)
 xmap ig <Plug>(coc-git-chunk-inner)
 omap ag <Plug>(coc-git-chunk-outer)
 xmap ag <Plug>(coc-git-chunk-outer)
-
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
