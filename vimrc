@@ -291,6 +291,8 @@ autocmd User FugitiveIndex nmap <buffer> dt :Gtabedit <Plug><cfile><Bar>Gvdiffsp
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Cmake
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:cmake_link_compile_commands=1
+
 nmap <silent> <leader>cb :CMakeBuild -j8<CR>
 nmap <silent> <leader>cg :CMakeGenerate!<CR>
 nmap <silent> <leader>cq :CMakeClose<CR>
