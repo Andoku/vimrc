@@ -234,8 +234,8 @@ set wrap "Wrap lines
 " Visual mode pressing * or # searches for the current selection
 " Super useful! From an idea by Michael Naumann
 vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
-" When you press <leader>r you can search and replace the selected text
-vnoremap <silent> <leader>r :call VisualSelection('replace', '')<CR>
+" When you press <leader>rn you can search and replace the selected text
+vnoremap <silent> <leader>rn :call VisualSelection('replace', '')<CR>
 " Grep after the selected text
 vnoremap <silent> <C-g> :call VisualSelection('rg', '')<CR>
 
@@ -337,9 +337,9 @@ let g:AutoPairsShortcutBackInsert=''
 let g:AutoPairsMultilineClose=0
 
 
-""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Coc.nvim
-""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Auto install extensions
 let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-python', 'coc-clangd', 'coc-explorer']
 
@@ -359,6 +359,9 @@ function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
+
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-@> coc#refresh()
 
 " Make <CR> auto-select the first completion item and notify coc.nvim to
 " format on enter, <cr> could be remapped by other vim plugin
