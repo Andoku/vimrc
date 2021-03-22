@@ -145,6 +145,7 @@ set termguicolors
 if has("mac") 
     set gfn=Blex\ Mono\ Nerd\ Font\ Complete\ Mono:h16,
                 \IBM\ Plex\ Mono:h16,
+                \Iosevka\ Extended:h16,
                 \Hack:h16,Source\ Code\ Pro:h16,Menlo:h16
 else
     set gfn=IBM\ Plex\ Mono\ 16,
@@ -293,12 +294,22 @@ autocmd User FugitiveIndex nmap <buffer> dt :Gtabedit <Plug><cfile><Bar>Gvdiffsp
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:cmake_link_compile_commands=1
 
-nmap <silent> <leader>cb :CMakeBuild -j8<CR>
-nmap <silent> <leader>cg :CMakeGenerate!<CR>
-nmap <silent> <leader>cq :CMakeClose<CR>
-nmap <silent> <leader>cs <Plug>(CMakeSwitch)
-nmap <silent> <leader>ct :CMakeBuild test -- ARGS="-j8 --output-on-failure"<CR>
+nmap <leader>cb :CMakeBuild -j8<CR>
+nmap <leader>cg :CMakeGenerate! 
+nmap <silent> <leader>cq :call <SID>close_qf()<CR>
+nmap <silent> <leader>co :call <SID>open_qf()<CR>
+nmap <leader>cs <Plug>(CMakeSwitch)
+nmap <leader>ct :CMakeBuild test -- ARGS="-j8 --output-on-failure"<CR>
 
+function! s:open_qf()
+    :CMakeClose
+    :cope
+endfunction
+
+function! s:close_qf()
+    :CMakeClose
+    :ccl
+endfunction
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => FZF
