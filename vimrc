@@ -15,8 +15,8 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'psliwka/vim-smoothie'
-" Plug 'chuling/equinusocio-material.vim'
-Plug 'Andoku/equinusocio-material.vim'
+Plug 'chuling/equinusocio-material.vim'
+" Plug 'Andoku/equinusocio-material.vim'
 call plug#end()
 
 let g:plug_window = 'tabnew'
