@@ -144,7 +144,7 @@ set termguicolors
 
 " Set font according to system
 if has("mac") 
-    set gfn=Blex\ Mono\ Nerd\ Font\ Complete\ Mono:h16,
+    set gfn=Blex\ Mono\ Nerd\ Font\ Complete\ Mono:h15,
                 \IBM\ Plex\ Mono:h16,
                 \Iosevka\ Extended:h16,
                 \Hack:h16,Source\ Code\ Pro:h16,Menlo:h16
