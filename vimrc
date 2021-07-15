@@ -295,19 +295,28 @@ autocmd User FugitiveIndex nmap <buffer> dt :Gtabedit <Plug><cfile><Bar>Gvdiffsp
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:cmake_link_compile_commands=1
 let g:cmake_build_dir_location='build/'
-nmap <leader>cb :CMakeBuild -j8<CR>
+let g:cmake_root_markers=''
+
+nmap <silent> <leader>cb :call <SID>cmake_build()<CR>
+nmap <leader>cc <Plug>(CMakeBuildTarget)
 nmap <leader>cg :CMakeGenerate! 
-nmap <silent> <leader>cq :call <SID>close_qf()<CR>
-nmap <silent> <leader>co :call <SID>open_qf()<CR>
+nmap <silent> <leader>cq :call <SID>cmake_close()<CR>
+nmap <silent> <leader>co :call <SID>cmake_open()<CR>
 nmap <leader>cs <Plug>(CMakeSwitch)
 nmap <leader>ct :CMakeBuild test -- ARGS="-j8 --output-on-failure"<CR>
 
-function! s:open_qf()
+function! s:cmake_build()
+    :CMakeClose
+    :ccl
+    :CMakeBuild --parallel 8
+endfunction
+
+function! s:cmake_open()
     :CMakeClose
     :cope
 endfunction
 
-function! s:close_qf()
+function! s:cmake_close()
     :CMakeClose
     :ccl
 endfunction
