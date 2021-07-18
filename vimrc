@@ -54,9 +54,6 @@ map <leader>e :e! $MYVIMRC<cr>
 " Open splits below
 set splitbelow
 
-" Switch between .cpp and .h files
-nnoremap <F4> :e %:p:s,.h$,.X123X,:s,.cpp$,.h,:s,.X123X$,.cpp,<CR>
-
 " Disable search highlight
 map <silent> <leader><cr> :noh<cr>
 
@@ -380,6 +377,9 @@ function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
+
+" Switching between header and implementation file 
+nmap <leader>s :CocCommand clangd.switchSourceHeader<CR>
 
 " Use <c-space> to trigger completion.
 inoremap <silent><expr> <c-@> coc#refresh()
