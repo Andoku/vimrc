@@ -141,14 +141,9 @@ set termguicolors
 
 " Set font according to system
 if has("mac") 
-    set gfn=Blex\ Mono\ Nerd\ Font\ Complete\ Mono:h15,
-                \IBM\ Plex\ Mono:h15,
-                \Iosevka\ Extended:h16,
-                \Hack:h16,Source\ Code\ Pro:h16,Menlo:h16
+    set gfn=Blex\ Mono\ Nerd\ Font\ Complete\ Mono:h15
 else
-    set gfn=IBM\ Plex\ Mono\ 15,
-                \:Hack\ 16,Source\ Code\ Pro\ 16,
-                \Bitstream\ Vera\ Sans\ Mono\ 16
+    set gfn=IBM\ Plex\ Mono\ 15
 endif
 
 " Disable scrollbars (real hackers don't use scrollbars for navigation!)
