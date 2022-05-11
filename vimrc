@@ -11,8 +11,7 @@ Plug 'itchyny/lightline.vim'
 Plug 'sheerun/vim-polyglot'
 Plug 'cdelledonne/vim-cmake'
 Plug 'jiangmiao/auto-pairs'
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'neoclide/coc.nvim', {'branch': 'master', 'commit': '2ad659d8b1a3d7bef7dca7d33c6ab9363a729100', 'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'psliwka/vim-smoothie'
@@ -57,6 +56,9 @@ set splitbelow
 
 " Disable search highlight
 map <silent> <leader><cr> :noh<cr>
+
+" File encoding
+set fileencodings=utf-8,cp1251
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -144,7 +146,8 @@ set termguicolors
 if has("mac") 
     set gfn=Blex\ Mono\ Nerd\ Font\ Complete\ Mono:h15
 else
-    set gfn=IBM\ Plex\ Mono\ 15
+    set gfn=BlexMono\ Nerd\ Font\ Mono\ 15
+    " set gfn=IBM\ Plex\ Mono\ 15
 endif
 
 " Disable scrollbars (real hackers don't use scrollbars for navigation!)
@@ -288,7 +291,7 @@ autocmd User FugitiveIndex nmap <buffer> dt :Gtabedit <Plug><cfile><Bar>Gvdiffsp
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:cmake_link_compile_commands=1
 let g:cmake_build_dir_location='build/'
-let g:cmake_root_markers=''
+let g:cmake_root_markers=[]
 
 nmap <silent> <leader>cb :call <SID>cmake_build()<CR>
 nmap <leader>cc <Plug>(CMakeBuildTarget)
