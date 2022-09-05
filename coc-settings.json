@@ -1,14 +1,11 @@
 {
-    "coc.preferences.semanticTokensHighlights": false,
     "clangd.arguments": ["-header-insertion=never"],
 
     "suggest.autoTrigger": "none",
-    "suggest.maxPreviewWidth": 40,
     "suggest.labelMaxLength": 40,
     "suggest.noselect": false,
 
     "explorer.icon.enableNerdfont": true,
-    "explorer.width": 50,
 
     "git.addedSign.hlGroup": "Title",
     "git.changedSign.hlGroup": "WarningMsg",

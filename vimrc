@@ -144,10 +144,9 @@ set termguicolors
 
 " Set font according to system
 if has("mac") 
-    set gfn=Blex\ Mono\ Nerd\ Font\ Complete\ Mono:h15
+    set gfn=BlexMono\ Nerd\ Font\ Mono:h15
 else
     set gfn=BlexMono\ Nerd\ Font\ Mono\ 15
-    " set gfn=IBM\ Plex\ Mono\ 15
 endif
 
 " Disable scrollbars (real hackers don't use scrollbars for navigation!)
@@ -299,7 +298,7 @@ nmap <leader>cg :CMakeGenerate!
 nmap <silent> <leader>cq :call <SID>cmake_close()<CR>
 nmap <silent> <leader>co :call <SID>cmake_open()<CR>
 nmap <leader>cs <Plug>(CMakeSwitch)
-nmap <leader>ct :CMakeBuild test -- ARGS="-j8 --output-on-failure"<CR>
+nmap <leader>ct :CMakeTest -j8 --output-on-failure<CR>
 
 function! s:cmake_build()
     :CMakeClose
@@ -466,6 +465,11 @@ xmap ig <Plug>(coc-git-chunk-inner)
 omap ag <Plug>(coc-git-chunk-outer)
 xmap ag <Plug>(coc-git-chunk-outer)
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Neovide
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:neovide_cursor_animation_length=0
+let g:neovide_cursor_trail_length=0
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Helper functions
